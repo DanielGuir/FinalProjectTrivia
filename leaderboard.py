@@ -21,15 +21,16 @@ consumer.subscribe(topics=["leaderboard-session" + str(sessionid)])
 
 userdict = {}
 
-for score in consumer:
+for msg in consumer:
+	score = str(msg.value, 'ascii')
 	user = score[:-1]
-	curscore = int(curscore[-1])
+	curscore = int(score[-1])
 	if not user in userdict:
 		userdict[user] = curscore
 	else:
 		userdict[user] = userdict[user] + curscore
 
-	print('some code to display it to the UI')
+	print(userdict)
 
 print('finished')
 
