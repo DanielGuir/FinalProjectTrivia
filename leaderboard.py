@@ -5,23 +5,17 @@ from kafka import KafkaConsumer  # consumer of events
 import couchdb
 import time
 
-#session id
+#unique session id
 sessionid = 1 #FIXME: have this as a webpage param
-
-#Setup couchdb properties
-couch = couchdb.Server('http://admin:estopinalgui@129.114.26.92:30001/')
-
 
 # acquire the consumer
 
 consumer = KafkaConsumer (bootstrap_servers="129.114.25.218:30002")
-
-
 consumer.subscribe(topics=["leaderboard-session" + str(sessionid)])
 
 userdict = {}
-
 for msg in consumer:
+	#FIXME: convert this to frontend code
 	score = str(msg.value, 'ascii')
 	user = score[:-1]
 	curscore = int(score[-1])

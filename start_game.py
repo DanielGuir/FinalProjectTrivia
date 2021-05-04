@@ -6,7 +6,7 @@ from kafka import KafkaProducer
 import couchdb
 import time
 
-#session id
+# unique session id
 sessionid = 1 #FIXME: have this as a webpage param
 
 #Setup couchdb properties
