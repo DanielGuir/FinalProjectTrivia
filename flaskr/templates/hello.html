@@ -1,0 +1,24 @@
+<html>
+    <body>
+	<p>TRIVIA GAME!</p>
+	<p>Question: </p>
+	<p id ="timer">0</p>
+        <form method="post" action="/">
+            <input type="submit" value="1" name="1"/>
+            <input type="submit" value="2" name="2"/>
+	    <input type="submit" value="3" name="3"/>
+            <input type="submit" value="4" name="4"/>
+        </form>
+	<p> {{ press }} </p>
+    </body>
+
+    <script>
+    var timeElapsed = 0;
+    function tick() {
+        timeElapsed++;
+	document.getElementById("timer").innerHTML = timeElapsed;
+    }
+
+    setInterval(tick, 1000);
+    </script>
+</html>
