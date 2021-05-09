@@ -67,11 +67,12 @@ def start_game():
 		count -= 1
 		if count == 0:
 			question = 'Finish'
-			break
 		else:
 			question = db[doc]['content']
 		# send question
 		producer.send("question-session" + str(session_id), value=bytes (question, 'ascii'))
+		if question == 'Finish':
+			break
 	print('finished')
 
 # function for collecting questions
