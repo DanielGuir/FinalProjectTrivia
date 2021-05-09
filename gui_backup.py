@@ -46,7 +46,6 @@ d1.grid(row=3, column=1)
 global question_q
 question_q = Queue()
 point_q = Queue()
-answer_q = Queue()
 
 
 # make those widgets global
@@ -119,36 +118,13 @@ def leaderboard(leaderboard_list):
 	
 
 
-def wronganswer(button):
+def wronganswer():
 	print('wrong')
-
-	answershow.config(text = 'Your answer: ' + button['text'])
 	#print(count)
 	# update score
-	if answer_q.empty():
-		answer_q.put(0)
-	else:
-		answer_q.get()
-		answer_q.put(0)
+	point_q.put(username + '0')
 	#count +=1
 	
-
-def timer():
-	count = 10
-	while count > 0:
-		start_text.config(text = "Time remaining: " + str(count))
-		time.sleep(1)
-		count = count - 1
-	start_text.config(text = "Time remaining: 0")
-	if answer_q.empty():
-		point_q.put(username + '0')
-	answer = answer_q.get()
-	if answer == 1:
-		point_q.put(username + '1')
-	else:
-		point_q.put(username + '0')
-
-	# populate new question
 	while True:
 		if question_q.empty():
 			continue
@@ -165,33 +141,63 @@ def timer():
 				break
 			answer = question[-1]
 			question_text.config(text=question[0])
-			answer1.config(text=question[1], command=lambda: wronganswer(answer1))
-			answer2.config(text=question[2], command=lambda: wronganswer(answer2))
-			answer3.config(text=question[3], command=lambda: wronganswer(answer3))
-			answer4.config(text=question[4], command=lambda: wronganswer(answer4))
+			answer1.config(text=question[1], command=wronganswer)
+			answer2.config(text=question[2], command=wronganswer)
+			answer3.config(text=question[3], command=wronganswer)
+			answer4.config(text=question[4], command=wronganswer)
 			if answer == '1':
-				answer1.config(command=lambda: rightanswer(answer1))
+				answer1.config(command=rightanswer)
 			if answer == '2':
-				answer2.config(command=lambda: rightanswer(answer2))
+				answer2.config(command=rightanswer)
 			if answer == '3':
-				answer3.config(command=lambda: rightanswer(answer3))
+				answer3.config(command=rightanswer)
 			if answer == '4':
-				answer4.config(command=lambda: rightanswer(answer4))
-			answershow.config(text = '')
-			ttimer = Thread(target=timer)
-			ttimer.start()
+				answer4.config(command=rightanswer)
 			break
-	
 
-def rightanswer(button):
+# def timer():
+# 	count = 10
+# 	while count > 0:
+# 		start_text.config(text = "Time remaining: " + str(count))
+# 		time.sleep(1)
+# 		count = count - 1
+# 	start_text.config(text = "Time remaining: 0")
+# 	wronganswer()
+
+def rightanswer():
 	print('right')
 	#print(count)
-	answershow.config(text='Your answer: ' + button['text'])
-	if answer_q.empty():
-		answer_q.put(1)
-	else:
-		answer_q.get()
-		answer_q.put(1)
+	point_q.put(username + '1')
+	#count+=1
+	while True:
+		if question_q.empty():
+			continue
+		# process questions
+		else:
+			question = question_q.get()
+			question = question.split(' ')
+			if len(question) == 1:
+				answer1.destroy()
+				answer2.destroy()
+				answer3.destroy()
+				answer4.destroy()
+				question_text.config(text = 'Game Finished!')
+				break
+			answer = question[-1]
+			question_text.config(text=question[0])
+			answer1.config(text=question[1], command=wronganswer)
+			answer2.config(text=question[2], command=wronganswer)
+			answer3.config(text=question[3], command=wronganswer)
+			answer4.config(text=question[4], command=wronganswer)
+			if answer == '1':
+				answer1.config(command=rightanswer)
+			if answer == '2':
+				answer2.config(command=rightanswer)
+			if answer == '3':
+				answer3.config(command=rightanswer)
+			if answer == '4':
+				answer4.config(command=rightanswer)
+			break
 
 # def StartClicked(question_q):
 #     print(session_id)
@@ -233,20 +239,20 @@ def waitforquestion(question_q):
 			question = question.split(' ')
 			answer = question[-1]
 			question_text.config(text=question[0])
-			answer1.config(text=question[1], command=lambda: wronganswer(answer1))
-			answer2.config(text=question[2], command=lambda: wronganswer(answer2))
-			answer3.config(text=question[3], command=lambda: wronganswer(answer3))
-			answer4.config(text=question[4], command=lambda: wronganswer(answer4))
+			answer1.config(text=question[1], command=wronganswer)
+			answer2.config(text=question[2], command=wronganswer)
+			answer3.config(text=question[3], command=wronganswer)
+			answer4.config(text=question[4], command=wronganswer)
 			if answer == '1':
-				answer1.config(command=lambda: rightanswer(answer1))
+				answer1.config(command=rightanswer)
 			if answer == '2':
-				answer2.config(command=lambda: rightanswer(answer2))
+				answer2.config(command=rightanswer)
 			if answer == '3':
-				answer3.config(command=lambda: rightanswer(answer3))
+				answer3.config(command=rightanswer)
 			if answer == '4':
-				answer4.config(command=lambda: rightanswer(answer4))
-			ttimer = Thread(target=timer)
-			ttimer.start()
+				answer4.config(command=rightanswer)
+			# ttimer = Thread(target=timer)
+			# ttimer.start()
 			break  
 
 def StartClicked():
@@ -287,7 +293,6 @@ def Hostclicked():
 	global leaderboard4
 	global curcount
 	global start_btn
-	global answershow
 	curcount = 0
 	start_btn = ttk.Button(frame ,text="Start Game", command=StartClicked)
 	start_btn.grid(row=0, columnspan=2)
@@ -301,8 +306,6 @@ def Hostclicked():
 	answer3.grid(row=3, column=0)
 	answer4 = ttk.Button(frame ,text="")
 	answer4.grid(row=3, column=1)
-	answershow = Label(frame, text = "")
-	answershow.grid(row = 4, columnspan = 2)
 	frame2 = Frame(window, borderwidth=2, relief="groove")
 	frame2.pack(side="right", expand=True, fill="both")
 	leaderboard_tex = Label(frame2, text='Leaderboard', borderwidth=1, relief="groove")
@@ -352,7 +355,6 @@ def Joinclicked():
 	global leaderboard3
 	global leaderboard4
 	global curcount
-	global answershow
 	curcount = 0
 	start_text = Label(frame ,text = "")
 	start_text.grid(row=0, columnspan=2)
@@ -366,8 +368,6 @@ def Joinclicked():
 	answer3.grid(row=3, column=0)
 	answer4 = ttk.Button(frame ,text="")
 	answer4.grid(row=3, column=1)
-	answershow = Label(frame, text = "")
-	answershow.grid(row = 4, columnspan = 2)
 	frame2 = Frame(window, borderwidth=2, relief="groove")
 	frame2.pack(side="right", expand=True, fill="both")
 	leaderboard_tex = Label(frame2, text='Leaderboard', borderwidth=1, relief="groove")

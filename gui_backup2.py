@@ -119,10 +119,8 @@ def leaderboard(leaderboard_list):
 	
 
 
-def wronganswer(button):
+def wronganswer():
 	print('wrong')
-
-	answershow.config(text = 'Your answer: ' + button['text'])
 	#print(count)
 	# update score
 	if answer_q.empty():
@@ -165,28 +163,26 @@ def timer():
 				break
 			answer = question[-1]
 			question_text.config(text=question[0])
-			answer1.config(text=question[1], command=lambda: wronganswer(answer1))
-			answer2.config(text=question[2], command=lambda: wronganswer(answer2))
-			answer3.config(text=question[3], command=lambda: wronganswer(answer3))
-			answer4.config(text=question[4], command=lambda: wronganswer(answer4))
+			answer1.config(text=question[1], command=wronganswer)
+			answer2.config(text=question[2], command=wronganswer)
+			answer3.config(text=question[3], command=wronganswer)
+			answer4.config(text=question[4], command=wronganswer)
 			if answer == '1':
-				answer1.config(command=lambda: rightanswer(answer1))
+				answer1.config(command=rightanswer)
 			if answer == '2':
-				answer2.config(command=lambda: rightanswer(answer2))
+				answer2.config(command=rightanswer)
 			if answer == '3':
-				answer3.config(command=lambda: rightanswer(answer3))
+				answer3.config(command=rightanswer)
 			if answer == '4':
-				answer4.config(command=lambda: rightanswer(answer4))
-			answershow.config(text = '')
+				answer4.config(command=rightanswer)
 			ttimer = Thread(target=timer)
 			ttimer.start()
 			break
 	
 
-def rightanswer(button):
+def rightanswer():
 	print('right')
 	#print(count)
-	answershow.config(text='Your answer: ' + button['text'])
 	if answer_q.empty():
 		answer_q.put(1)
 	else:
@@ -233,18 +229,18 @@ def waitforquestion(question_q):
 			question = question.split(' ')
 			answer = question[-1]
 			question_text.config(text=question[0])
-			answer1.config(text=question[1], command=lambda: wronganswer(answer1))
-			answer2.config(text=question[2], command=lambda: wronganswer(answer2))
-			answer3.config(text=question[3], command=lambda: wronganswer(answer3))
-			answer4.config(text=question[4], command=lambda: wronganswer(answer4))
+			answer1.config(text=question[1], command=wronganswer)
+			answer2.config(text=question[2], command=wronganswer)
+			answer3.config(text=question[3], command=wronganswer)
+			answer4.config(text=question[4], command=wronganswer)
 			if answer == '1':
-				answer1.config(command=lambda: rightanswer(answer1))
+				answer1.config(command=rightanswer)
 			if answer == '2':
-				answer2.config(command=lambda: rightanswer(answer2))
+				answer2.config(command=rightanswer)
 			if answer == '3':
-				answer3.config(command=lambda: rightanswer(answer3))
+				answer3.config(command=rightanswer)
 			if answer == '4':
-				answer4.config(command=lambda: rightanswer(answer4))
+				answer4.config(command=rightanswer)
 			ttimer = Thread(target=timer)
 			ttimer.start()
 			break  
