@@ -142,11 +142,12 @@ def timer():
 	start_text.config(text = "Time remaining: 0")
 	if answer_q.empty():
 		point_q.put(username + '0')
-	answer = answer_q.get()
-	if answer == 1:
-		point_q.put(username + '1')
 	else:
-		point_q.put(username + '0')
+		answer = answer_q.get()
+		if answer == 1:
+			point_q.put(username + '1')
+		else:
+			point_q.put(username + '0')
 
 	# populate new question
 	while True:
