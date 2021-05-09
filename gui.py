@@ -67,6 +67,7 @@ def start_game():
 		count -= 1
 		if count == 0:
 			question = 'Finish'
+			break
 		else:
 			question = db[doc]['content']
 		# send question
